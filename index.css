@@ -1,0 +1,26 @@
+body {
+  text-align: center;
+  align-content: center;
+  margin: auto;
+  width: 60%;
+}
+
+.container {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: fit-content;
+  background: #2f8edb;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.card {
+  background: tomato;
+  padding: 5px;
+  margin: 5px;
+  width: 100px;
+  height: 100px;
+}
