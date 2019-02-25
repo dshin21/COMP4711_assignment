@@ -1,0 +1,25 @@
+{
+  "name": "4711_asn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dshin21/COMP4711_assignment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dshin21/COMP4711_assignment/issues"
+  },
+  "homepage": "https://github.com/dshin21/COMP4711_assignment#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "hbs": "^4.0.2"
+  }
+}
