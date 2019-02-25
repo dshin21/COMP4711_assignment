@@ -8,23 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet prefetch"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/index.css">
-    </head>
+    <link rel="stylesheet" href="/index.css" />
+</head>
 
 <body>
-    <header>
-        <h1>Memory Game</h1>
-    </header>
+    <h1>Memory Game</h1>
 
     <div class="container">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        {{{cardHelper.makeCards cardHelper.numberOfCards}}}
     </div>
 </body>
 
