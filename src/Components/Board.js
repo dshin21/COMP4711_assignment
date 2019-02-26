@@ -42,6 +42,7 @@ class Board extends Component {
         }
 
         this.setState({ deck: this.randomizeCards(this.state.deck) });
+
     }
 
     randomizeCards(array) {
@@ -136,6 +137,7 @@ class Board extends Component {
                             <Card
                                 currentCard={currentCard.name}
                                 isClicked={currentCard.isClicked}
+                                isAnswer={currentCard.isAnswer}
                                 click={() =>
                                     this.handleClick(currentCard.name, index)
                                 }
