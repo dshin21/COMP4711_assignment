@@ -17,6 +17,7 @@ class Card extends Component {
             console.log("Parent did mount.");
             this.state.isStart = false;
             this.forceUpdate();
+            this.props.rotate();
         }, 3000);
     }
 

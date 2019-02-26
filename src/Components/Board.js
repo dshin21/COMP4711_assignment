@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import Card from "./Card";
-// import TestButton from "./TestButton";
+import ScoreBoard from "./ScoreBoard";
 
 class Board extends Component {
     constructor(props) {
@@ -11,17 +11,18 @@ class Board extends Component {
             deck: [],
             selectedCards: [],
             playerScore: 0, //TODO:store in DB
-            playerName: "" //TODO:store in DB
+            playerName: "", //TODO:store in DB
+            trials: 1 //TODO:store in DB
         };
-        // this.test = this.test.bind(this);
 
+        this.rotate = this.rotate.bind(this);
         this.start();
     }
 
     start() {
+        // this.reset();
         //zero: wrong ans
         //one:  correct ans
-
         for (
             let zero = 0, one = 0;
             zero < this.state.currentDeckSize * this.state.currentDeckSize;
@@ -42,7 +43,6 @@ class Board extends Component {
         }
 
         this.setState({ deck: this.randomizeCards(this.state.deck) });
-
     }
 
     randomizeCards(array) {
@@ -92,6 +92,7 @@ class Board extends Component {
     check() {
         let selectedCards = this.state.selectedCards;
         let playerScore = this.state.playerScore;
+        let currentDeckSize = this.state.currentDeckSize;
 
         for (let i = 0; i < selectedCards.length; i++) {
             if (!selectedCards[i].isAnswer) {
@@ -104,49 +105,28 @@ class Board extends Component {
 
                     //TODO:store in DB
                     playerScore:
-                        this.playerScore <= 0 ? -1 : this.playerScore - 1,
+                        this.playerScore <= 0 ? 0 : this.playerScore - 1,
 
                     //TODO:store in DB
-                    playerName: "",
-
-                    selectedCards: [],
-                    deck: []
+                    playerName: ""
                 });
-                this.reset();
+
                 this.start();
                 return;
             }
         }
-        console.log("yay");
 
-        this.setState({
-            playerScore: playerScore + 1
-        });
-    }
-
-    render() {
-        return (
-            <div>
-                <div
-                    className={`playground ${
-                        this.state.temp ? "start-rotate" : ""
-                    }`}
-                >
-                    {this.state.deck.map((currentCard, index) => {
-                        return (
-                            <Card
-                                currentCard={currentCard.name}
-                                isClicked={currentCard.isClicked}
-                                isAnswer={currentCard.isAnswer}
-                                click={() =>
-                                    this.handleClick(currentCard.name, index)
-                                }
-                            />
-                        );
-                    })}
-                </div>
-                {/* <TestButton test={this.test} /> */}
-            </div>
+        this.setState(
+            {
+                playerScore: playerScore + 1,
+                currentDeckSize: currentDeckSize + 1
+            },
+            () => {
+                console.log(this.state.playerScore);
+                setTimeout(() => {
+                    this.start();
+                }, 3000);
+            }
         );
     }
 
@@ -156,11 +136,49 @@ class Board extends Component {
         for (let i = 0; i < deck.length; i++) deck[i] = null;
         for (let i = 0; i < selectedCards.length; i++) selectedCards[i] = null;
     }
-    // test() {
-    //     this.setState({
-    //         temp: true
-    //     });
-    // }
+
+    rotate() {
+        if (!this.state.isRotated) {
+            this.setState({
+                isRotated: true
+            });
+        } else {
+            this.setState({
+                isRotated: false
+            });
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <ScoreBoard
+                    playerScore={this.state.playerScore}
+                    numTiles={this.state.currentDeckSize}
+                    trials={this.state.trials}
+                />
+                <div
+                    className={`playground ${
+                        this.state.isRotated ? "start-rotate" : ""
+                    }`}
+                >
+                    {this.state.deck.map((currentCard, index) => {
+                        return (
+                            <Card
+                                currentCard={currentCard.name}
+                                isClicked={currentCard.isClicked}
+                                isAnswer={currentCard.isAnswer}
+                                rotate={this.rotate}
+                                click={() =>
+                                    this.handleClick(currentCard.name, index)
+                                }
+                            />
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Board;
