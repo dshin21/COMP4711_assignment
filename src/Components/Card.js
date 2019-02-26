@@ -14,7 +14,6 @@ class Card extends Component {
 
     componentDidMount() {
         setTimeout(() => {
-            console.log("Parent did mount.");
             this.state.isStart = false;
             this.forceUpdate();
             this.props.rotate();
