@@ -31,7 +31,7 @@ class Board extends Component {
                 name: zero,
                 isAnswer: false
             };
-            if (one !== this.state.currentDeckSize) {
+            if (one <= this.state.currentDeckSize) {
                 tempCard.isAnswer = true;
                 this.state.deck[zero] = tempCard;
                 one++;
@@ -51,6 +51,7 @@ class Board extends Component {
             array[i] = array[j];
             array[j] = temp;
         }
+        console.log(array);
         return array;
     }
 
@@ -91,8 +92,8 @@ class Board extends Component {
         let selectedCards = this.state.selectedCards;
         let playerScore = this.state.playerScore;
 
-        for (let i in selectedCards) {
-            if (!i.isAnswer) {
+        for (let i = 0; i < selectedCards.length; i++) {
+            if (!selectedCards[i].isAnswer) {
                 //TODO: -1 score && restart the game -1 size if not 3
                 this.setState({
                     currentDeckSize:
@@ -115,6 +116,8 @@ class Board extends Component {
                 return;
             }
         }
+        console.log("yay");
+
         this.setState({
             playerScore: playerScore + 1
         });
@@ -133,7 +136,6 @@ class Board extends Component {
                             <Card
                                 currentCard={currentCard.name}
                                 isClicked={currentCard.isClicked}
-                                // complete={currentCard.complete}
                                 click={() =>
                                     this.handleClick(currentCard.name, index)
                                 }
