@@ -1,30 +1,26 @@
 {
-  "name": "comp4711_asn",
-  "version": "0.1.0",
-  "private": true,
+  "name": "4711_asn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dshin21/COMP4711_assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dshin21/COMP4711_assignment/issues"
+  },
+  "homepage": "https://github.com/dshin21/COMP4711_assignment#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mysql": "^2.16.0",
-    "node-sass": "^4.11.0",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
-  },
-  "scripts": {
-    "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "mysql": "^2.16.0"
+  }
 }

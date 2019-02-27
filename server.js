@@ -1,5 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
+const cors = require("cors");
 const path = require("path");
 
 const connection = mysql.createConnection({
@@ -8,9 +9,9 @@ const connection = mysql.createConnection({
   password: "2d211ca1",
   database: "heroku_bb4f7a09a393d7b"
 });
-// mysql://b54bd99ba59371:2d211ca1@us-cdbr-iron-east-03.cleardb.net/heroku_bb4f7a09a393d7b?reconnect=true
+
 let app = express();
-// app.use(cors());
+app.use(cors());
 app.use(express.static(path.join(__dirname, "client/build")));
 
 app.set("port", process.env.PORT || 5000);
@@ -38,6 +39,13 @@ app.get("/players/add", function(req, res) {
 
   connection.query(
     `INSERT INTO players (name, score) VALUES('${name}','${score}')`,
+    (error, results) => {}
+  );
+});
+
+app.get("/players/delete", function(req, res) {
+  connection.query(
+    `DELETE FROM players WHERE name=""`,
     (error, results) => {}
   );
 });
