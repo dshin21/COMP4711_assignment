@@ -29,12 +29,13 @@ class Board extends Component {
 
   start = () => {
     console.log("start");
-
     let deck = this.state.deck;
     let row = this.state.row;
     let col = this.state.col;
     let tiles = this.state.tiles;
-    // console.log(row, col, tiles);
+    console.log(deck);
+    this.reset();
+    console.log(deck);
 
     for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
       let tempCard = {
@@ -52,6 +53,23 @@ class Board extends Component {
       }
     }
     this.setState({ deck: this.randomizeCards(this.state.deck) });
+  };
+
+  reset = () => {
+    console.log("reset");
+
+    let deck = this.state.deck;
+    let selectedCards = this.state.selectedCards;
+
+    // for (let i = 0; i < deck.length; i++) delete deck[i];
+    // for (let i = 0; i < selectedCards.length; i++) delete selectedCards[i];
+    deck = [];
+    selectedCards = [];
+
+    this.setState({ deck: deck, selectedCards: selectedCards }, () => {
+      console.log(deck);
+      console.log(selectedCards);
+    });
   };
 
   randomizeCards = array => {
@@ -73,18 +91,21 @@ class Board extends Component {
     let deck = this.state.deck;
     let tiles = this.state.tiles;
 
-    deck[index].isClicked = true;
-
     if (selectedCards[selectedCards.length - 1] !== deck[index]) {
+      console.log("rest");
+
+      deck[index].isClicked = true;
       selectedCards.push(deck[index]);
-      // console.log(selectedCards);
       this.setState(
         {
           selectedCards,
           deck
         },
         () => {
-          if (selectedCards.length === tiles) this.check();
+          console.log(selectedCards.length, tiles);
+          if (selectedCards.length === tiles) {
+            this.check();
+          }
         }
       );
     }
@@ -144,10 +165,15 @@ class Board extends Component {
     let res = [];
 
     if (winOrLose === "win") {
+      console.log("win");
       if (tiles - col === 2) {
-        row++;
-        col++;
-        tiles = row;
+        if (row === 3 && col === 3) {
+          row++;
+          col++;
+          tiles = row + 1;
+        } else {
+          tiles = row + 1;
+        }
       } else {
         tiles++;
       }
@@ -157,6 +183,7 @@ class Board extends Component {
     }
 
     if (winOrLose === "lose") {
+      console.log("lose");
       if (tiles - col === 1) {
         if (row === 3 && col === 3) {
           console.log("hi");
@@ -177,15 +204,7 @@ class Board extends Component {
   };
 
   componentDidUpdate = () => {
-    console.log(this.state.row, this.state.col, this.state.tiles);
-    console.log(this.state.deck);
-  };
-
-  reset = () => {
-    let deck = this.state.deck;
-    let selectedCards = this.state.selectedCards;
-    for (let i = 0; i < deck.length; i++) deck[i] = null;
-    for (let i = 0; i < selectedCards.length; i++) selectedCards[i] = null;
+    // console.log(this.state.row, this.state.col, this.state.tiles);
   };
 
   rotate = () => {
