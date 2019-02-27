@@ -9,8 +9,8 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      row: 6,
-      col: 6,
+      row: 3,
+      col: 3,
       tiles: 4,
       deck: [],
       selectedCards: [],
