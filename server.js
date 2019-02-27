@@ -1,16 +1,20 @@
 const express = require("express");
 const mysql = require("mysql");
-const cors = require("cors");
+const path = require('path');
+
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "comp4711_asn_test"
+  host: "us-cdbr-iron-east-03.cleardb.net",
+  user: "b54bd99ba59371",
+  password: "2d211ca1",
+  database: "heroku_bb4f7a09a393d7b"
 });
-
+// mysql://b54bd99ba59371:2d211ca1@us-cdbr-iron-east-03.cleardb.net/heroku_bb4f7a09a393d7b?reconnect=true
 let app = express();
-app.use(cors());
+// app.use(cors());
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.set("port", process.env.PORT || 5000);
 
 app.get("/players", function(req, res) {
   connection.query("SELECT * FROM players", function(error, results, fields) {
@@ -24,16 +28,12 @@ app.get("/players", function(req, res) {
 
 app.get("/players/add", function(req, res) {
   var sql_create_db =
-    "CREATE DATABASE IF NOT EXISTS comp4711_asn_test (name VARCHAR(255), score VARCHAR(255))";
-  connection.query(sql_create_db, function(err, res) {
-    console.log("Database created");
-  });
+    "CREATE DATABASE IF NOT EXISTS comp4711_asn (name VARCHAR(255), score VARCHAR(255))";
+  connection.query(sql_create_db, function(err, res) {});
 
   var sql_create_table =
     "CREATE TABLE IF NOT EXISTS players (name VARCHAR(255), score VARCHAR(255))";
-  connection.query(sql_create_table, function(err, res) {
-    console.log("Table created");
-  });
+  connection.query(sql_create_table, function(err, res) {});
 
   const { name, score } = req.query;
 
@@ -43,6 +43,6 @@ app.get("/players/add", function(req, res) {
   );
 });
 
-app.listen(3001, () => {
-  console.log("Go to http://localhost:3001/players to see players");
+app.listen(app.get("port"), function() {
+  console.log("listening");
 });

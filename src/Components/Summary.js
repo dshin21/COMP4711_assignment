@@ -34,7 +34,6 @@ class Summary extends Component {
   };
 
   getPlayerInfo = () => {
-    console.log("getPlayerInfo");
     fetch("http://localhost:3001/players")
       .then(response => response.json())
       .then(response => this.setState({ playerInfo: response.data }, () => {}))

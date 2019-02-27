@@ -79,7 +79,6 @@ class Board extends Component {
   };
 
   restart = () => {
-    console.log("called");
     this.setState({
       isGameOver: false,
       playerScore: 0,
@@ -97,10 +96,6 @@ class Board extends Component {
     return array;
   };
 
-  //array holding cards
-  // if clicked, check if it is marked with "answer"
-  // if true, remain flipped
-  // if false, lose point -> reset -> prev level
   handleClick = index => {
     let selectedCards = this.state.selectedCards;
     let deck = this.state.deck;

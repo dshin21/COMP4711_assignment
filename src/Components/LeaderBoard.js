@@ -25,7 +25,6 @@ class LeaderBoard extends Component {
   render = () => {
     let counter = 0;
     const playerInfo = this.state.playerInfo;
-    console.log(playerInfo);
     return (
       <div>
         <h1>Welcome to the LeaderBoard!</h1>
