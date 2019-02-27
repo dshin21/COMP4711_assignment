@@ -12,6 +12,7 @@ class Board extends Component {
       row: 3,
       col: 3,
       tiles: 4,
+      temp: "",
 
       deck: [],
       selectedCards: [],
@@ -22,6 +23,7 @@ class Board extends Component {
       trials: 1,
       isGameOver: false
     };
+
     this.start();
   }
 
@@ -33,9 +35,9 @@ class Board extends Component {
     let trials = this.state.trials;
     let playerScore = this.state.playerScore;
     this.reset();
-    if (trials === 12 || playerScore < 0) {
+
+    if (trials >= 12 || playerScore < 0) {
       this.setState({ isGameOver: true });
-      return;
     }
     for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
       let tempCard = {
@@ -234,7 +236,7 @@ class Board extends Component {
 
   render = () => {
     if (this.state.isGameOver) {
-      return <Summary />;
+      return <Summary playerScore={this.state.playerScore} />;
     }
     return (
       <div>

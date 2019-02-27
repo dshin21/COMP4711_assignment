@@ -7,7 +7,6 @@ class ScoreBoard extends Component {
     }
 
     render() {
-        console.log("SCORE: " + this.props.playerScore);
         return (
             <div id="score-board">
                 <span id="numTiles">TILES&nbsp;&nbsp;{this.props.numTiles}</span>

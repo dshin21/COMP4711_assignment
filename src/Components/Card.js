@@ -10,7 +10,6 @@ class Card extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.state.lastCard);
     setTimeout(() => {
       this.setState({ isFirst: false });
     }, 1000);
@@ -25,7 +24,6 @@ class Card extends Component {
   // shouldComponentUpdate = (nextProps, nextState) => {
   //   if (this.props.isFirst) {
   //     setTimeout(() => {
-  //       // console.log("mount");
   //       // this.setState({ isFirst: false });
   //       this.props.rotate();
   //     }, 1000);
@@ -83,7 +81,6 @@ class Card extends Component {
   };
 
   render = () => {
-    console.log("card render");
     if (this.state.isFirst) {
       if (this.props.isAnswer) return this.firstRenderOpen();
       if (!this.props.isAnswer) return this.firstRenderClosed();
