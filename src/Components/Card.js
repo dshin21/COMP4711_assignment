@@ -21,7 +21,7 @@ class Card extends Component {
       }, 1500);
     }
   };
-
+//TODO:::::::::::::::::::CARD BG?????
   // shouldComponentUpdate = (nextProps, nextState) => {
   //   if (this.props.isFirst) {
   //     setTimeout(() => {
