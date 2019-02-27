@@ -9,11 +9,11 @@ class Board extends Component {
     this.state = {
       row: 3,
       col: 3,
-      tiles: 5,
+      tiles: 4,
 
       deck: [],
       selectedCards: [],
-      isStart: false,
+      isFirst: true,
       rotateClass: "",
       playerScore: 0, //TODO:store in DB
       playerName: "", //TODO:store in DB
@@ -22,16 +22,14 @@ class Board extends Component {
     this.start();
   }
 
-  componentDidMount = () => {};
-
   start = () => {
     let deck = this.state.deck;
     let row = this.state.row;
     let col = this.state.col;
     let tiles = this.state.tiles;
     this.reset();
-    console.log("start", row, col, tiles);
-    console.log(deck);
+    console.log("start");
+    // console.log(deck);
 
     for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
       let tempCard = {
@@ -49,16 +47,19 @@ class Board extends Component {
       }
     }
     this.randomizeCards(this.state.deck);
-    this.setState(
-      {
-        deck: deck
-      },
-      () => {
-        this.setState({
-          isStart: this.state.isStart === false ? true : false
-        });
-      }
-    );
+    setTimeout(() => {
+      this.setState(
+        {
+          deck: deck
+        },
+        () => {
+          this.setState({
+            isFirst: true
+          });
+          console.log("start: set deck");
+        }
+      );
+    }, 500);
   };
 
   reset = () => {
@@ -71,11 +72,12 @@ class Board extends Component {
     selectedCards = [];
 
     this.setState({ deck: deck, selectedCards: selectedCards }, () => {
-      console.log(deck);
+      // console.log(deck);
     });
   };
 
   randomizeCards = array => {
+    console.log("randomizeCards");
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var temp = array[i];
@@ -90,6 +92,7 @@ class Board extends Component {
   // if true, remain flipped
   // if false, lose point -> reset -> prev level
   handleClick = index => {
+    console.log("handleClick");
     let selectedCards = this.state.selectedCards;
     let deck = this.state.deck;
     let tiles = this.state.tiles;
@@ -112,6 +115,7 @@ class Board extends Component {
   };
 
   existDuplicateSelection = () => {
+    console.log("handleClick");
     let currentSelection = this.state.currentSelection;
     if (this.state.selectedCards.some(e => e.name == currentSelection))
       return true;
@@ -119,18 +123,20 @@ class Board extends Component {
   };
 
   check = () => {
+    console.log("check");
     let selectedCards = this.state.selectedCards;
     let isWrongAns = false;
     for (let i = 0; i < selectedCards.length && !isWrongAns; i++) {
       if (!selectedCards[i].isAnswer) {
         isWrongAns = true;
+        let newStates = this.determineNewBoardState("lose");
         this.setState(
           () => {
             return {
-              row: this.determineNewBoardState("lose")[0],
-              col: this.determineNewBoardState("lose")[1],
-              tiles: this.determineNewBoardState("lose")[2],
-              playerScore: this.determineNewBoardState("lose")[3]
+              row: newStates[0],
+              col: newStates[1],
+              tiles: newStates[2],
+              playerScore: newStates[3]
             };
           },
           () => {
@@ -141,13 +147,15 @@ class Board extends Component {
     }
 
     if (!isWrongAns) {
+      let newStates = this.determineNewBoardState("win");
+
       this.setState(
         () => {
           return {
-            row: this.determineNewBoardState("win")[0],
-            col: this.determineNewBoardState("win")[1],
-            tiles: this.determineNewBoardState("win")[2],
-            playerScore: this.determineNewBoardState("win")[3]
+            row: newStates[0],
+            col: newStates[1],
+            tiles: newStates[2],
+            playerScore: newStates[3]
           };
         },
         () => {
@@ -158,6 +166,7 @@ class Board extends Component {
   };
 
   determineNewBoardState = winOrLose => {
+    console.log("determineNewBoardState");
     let row = this.state.row;
     let col = this.state.col;
     let tiles = this.state.tiles;
@@ -165,25 +174,20 @@ class Board extends Component {
     let res = [];
 
     if (winOrLose === "win") {
-      console.log("win", row, col, tiles);
       if (tiles - col === 2) {
-        if (row === 3 && col === 3) {
-          row++;
-          col++;
-          tiles = row + 1;
-        } else {
-          tiles = row + 1;
-        }
-      } else {
-        tiles++;
+        tiles = row + 2;
+        row++;
+        col++;
+      } else if (tiles - col === 1) {
+        tiles = row + 2;
       }
 
       if (playerScore <= 0) playerScore = 0;
       else playerScore++;
+      console.log("win: new val", row, col, tiles);
     }
 
     if (winOrLose === "lose") {
-      console.log("lose", row, col, tiles);
       if (row === 3 && col === 3 && tiles === 4) {
         tiles--;
       } else if (tiles - col === 2) {
@@ -196,15 +200,15 @@ class Board extends Component {
 
       if (playerScore <= 0) playerScore = 0;
       else playerScore--;
+      console.log("lose: new val", row, col, tiles);
     }
 
     res.push(row, col, tiles, playerScore);
     return res;
   };
 
-  componentDidUpdate = () => {};
-
   rotate = () => {
+    console.log("rotate");
     if (this.state.rotateClass === "") {
       this.setState((state, props) => {
         return {
@@ -227,6 +231,8 @@ class Board extends Component {
   };
 
   render = () => {
+    console.log("board render");
+
     return (
       <div>
         <ScoreBoard
@@ -245,7 +251,8 @@ class Board extends Component {
                 currentCard={currentCard.name}
                 isClicked={currentCard.isClicked}
                 isAnswer={currentCard.isAnswer}
-                isStart={this.state.isStart}
+                lastCard={this.state.deck.length - 1 === index}
+                isFirst={this.state.isFirst}
                 rotate={this.rotate}
                 click={() => this.handleClick(index)}
               />

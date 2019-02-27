@@ -4,70 +4,91 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isStart: true
+      isFirst: this.props.isFirst,
+      lastCard: this.props.lastCard
     };
   }
 
   componentDidMount = () => {
-    if (!this.props.isStart) {
+    console.log(this.state.lastCard);
+    setTimeout(() => {
+      this.setState({ isFirst: false });
+    }, 1000);
+  
+    if (this.state.lastCard) {
       setTimeout(() => {
-        this.setState({ isStart: false });
         this.props.rotate();
-      }, 1000);
+      }, 1500);
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.isStart !== nextProps.isStart) {
-      setTimeout(() => {
-        this.setState({ isStart: false });
-      }, 1000);
-      setTimeout(() => {
-        this.setState({ isStart: true });
-      }, 1500);
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   if (this.props.isFirst) {
+  //     setTimeout(() => {
+  //       // console.log("mount");
+  //       // this.setState({ isFirst: false });
+  //       this.props.rotate();
+  //     }, 1000);
+  //   }
+  //   return true;
+  // };
 
-      setTimeout(() => {
-        this.setState({ isStart: false });
-        this.props.rotate();
-      }, 2500);
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  // if (this.props.isFirst !== nextProps.isFirst) {
+  //   setTimeout(() => {
+  //     this.setState({ isFirst: false });
+  //   }, 1000);
+  //   setTimeout(() => {
+  //     this.setState({ isFirst: true });
+  //   }, 1500);
+  //   setTimeout(() => {
+  //     this.setState({ isFirst: false });
+  //     this.props.rotate();
+  //   }, 2500);
+  // }
+  // }
 
   handleClick = () => {
     this.props.click(this.props.currentCard);
   };
 
+  firstRenderClosed = () => {
+    return (
+      <div className={"card"}>
+        <div className="front" />
+        <div className="back" />
+      </div>
+    );
+  };
+
+  firstRenderOpen = () => {
+    return (
+      <div className={"card opened"}>
+        <div className="front" />
+        <div className="back" />
+      </div>
+    );
+  };
+
+  renderReal = () => {
+    return (
+      <div
+        className={`card ${this.props.isClicked ? "opened" : ""}`}
+        onClick={() => this.handleClick()}
+      >
+        <div className="front" />
+        <div className="back" />
+      </div>
+    );
+  };
+
   render = () => {
-    if (this.state.isStart) {
-      if (this.props.isAnswer) {
-        console.log(this.props.currentCard);
-        return (
-          <div className={"card opened"}>
-            <div className="front" />
-            <div className="back" />
-          </div>
-        );
-      } else {
-        return (
-          <div className={"card"}>
-            <div className="front" />
-            <div className="back" />
-          </div>
-        );
-      }
+    console.log("card render");
+    if (this.state.isFirst) {
+      if (this.props.isAnswer) return this.firstRenderOpen();
+      if (!this.props.isAnswer) return this.firstRenderClosed();
     } else {
-      return (
-        <div
-          className={
-            "card " +
-            (this.state.isStart || this.props.isClicked ? "opened" : "")
-          }
-          onClick={() => this.handleClick()}
-        >
-          <div className="front" />
-          <div className="back" />
-        </div>
-      );
+      return this.renderReal();
     }
   };
 }
