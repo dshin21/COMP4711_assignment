@@ -12,14 +12,12 @@ class Board extends Component {
       row: 3,
       col: 3,
       tiles: 4,
-      temp: "",
-
       deck: [],
       selectedCards: [],
       isFirst: true,
       rotateClass: "",
-      playerScore: 0, //TODO:store in DB
-      playerName: "", //TODO:store in DB
+      playerScore: 0,
+      playerName: "",
       trials: 1,
       isGameOver: false
     };
@@ -36,37 +34,38 @@ class Board extends Component {
     let playerScore = this.state.playerScore;
     this.reset();
 
-    if (trials >= 12 || playerScore < 0) {
+    if (!(trials >= 12 || playerScore < 0)) {
+      for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
+        let tempCard = {
+          name: regTile,
+          isAnswer: false
+        };
+
+        if (ansTile < tiles) {
+          tempCard.isAnswer = true;
+          deck[regTile] = tempCard;
+          ansTile++;
+        } else {
+          tempCard.isAnswer = false;
+          deck[regTile] = tempCard;
+        }
+      }
+      this.randomizeCards(this.state.deck);
+      setTimeout(() => {
+        this.setState(
+          {
+            deck: deck
+          },
+          () => {
+            this.setState({
+              isFirst: true
+            });
+          }
+        );
+      }, 500);
+    } else {
       this.setState({ isGameOver: true });
     }
-    for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
-      let tempCard = {
-        name: regTile,
-        isAnswer: false
-      };
-
-      if (ansTile < tiles) {
-        tempCard.isAnswer = true;
-        deck[regTile] = tempCard;
-        ansTile++;
-      } else {
-        tempCard.isAnswer = false;
-        deck[regTile] = tempCard;
-      }
-    }
-    this.randomizeCards(this.state.deck);
-    setTimeout(() => {
-      this.setState(
-        {
-          deck: deck
-        },
-        () => {
-          this.setState({
-            isFirst: true
-          });
-        }
-      );
-    }, 500);
   };
 
   reset = () => {
@@ -77,6 +76,15 @@ class Board extends Component {
     selectedCards = [];
 
     this.setState({ deck: deck, selectedCards: selectedCards }, () => {});
+  };
+
+  restart = () => {
+    console.log("called");
+    this.setState({
+      isGameOver: false,
+      playerScore: 0,
+      trials: 0
+    });
   };
 
   randomizeCards = array => {
@@ -198,8 +206,10 @@ class Board extends Component {
         tiles = row + 2;
       }
 
-      if (playerScore <= 0) playerScore = 0;
-      else playerScore--;
+      if (playerScore > 0) playerScore--;
+      else {
+        this.setState({ isGameOver: true });
+      }
       trials++;
     }
 
@@ -230,13 +240,18 @@ class Board extends Component {
   };
 
   terminateButtonHandler = () => {
-    console.log("over");
-    this.setState({ isGameOver: true });
+    if (window.confirm("Are you sure you want to terminate?"))
+      this.setState({ isGameOver: true });
   };
 
   render = () => {
     if (this.state.isGameOver) {
-      return <Summary playerScore={this.state.playerScore} />;
+      return (
+        <Summary
+          restart={() => this.restart()}
+          playerScore={this.state.playerScore}
+        />
+      );
     }
     return (
       <div>

@@ -8,7 +8,6 @@ class Summary extends Component {
       playerName: "",
       playerScore: this.props.playerScore,
       playerInfo: [],
-      temp: "",
       submitted: false
     };
   }
@@ -16,6 +15,10 @@ class Summary extends Component {
   handleClick = () => {
     this.setState({ submitted: true });
     this.addplayerInfo();
+  };
+
+  handleRestart = () => {
+    this.props.restart();
   };
 
   addplayerInfo = _ => {
@@ -34,11 +37,7 @@ class Summary extends Component {
     console.log("getPlayerInfo");
     fetch("http://localhost:3001/players")
       .then(response => response.json())
-      .then(response =>
-        this.setState({ playerInfo: response.data }, () => {
-          console.log(this.state.temp);
-        })
-      )
+      .then(response => this.setState({ playerInfo: response.data }, () => {}))
       .catch(err => console.log(err));
   };
 
@@ -50,12 +49,15 @@ class Summary extends Component {
           playerInfo={this.state.playerInfo}
           playerName={this.state.playerName}
           playerScore={this.state.playerScore}
+          restart={() => this.handleRestart()}
         />
       );
     }
+
     return (
       <div className="summary">
         <div>
+          <h1>GAME OVER!</h1>
           <h1>Your Score is: {this.state.playerScore}</h1>
           <input
             type="text"
@@ -63,13 +65,18 @@ class Summary extends Component {
             onChange={this.handleChange.bind(this)}
             placeholder="Please Enter Your Name"
           />
-          <button
-            id="restart-button"
-            onClick={this.handleClick.bind(this, this.state.playerName)}
-          >
-            SUBMIT
-          </button>
         </div>
+
+        <button className="restart-button" onClick={() => this.handleRestart()}>
+          RESTART
+        </button>
+
+        <button
+          className="submit-button"
+          onClick={this.handleClick.bind(this, this.state.playerName)}
+        >
+          SUBMIT
+        </button>
       </div>
     );
   };

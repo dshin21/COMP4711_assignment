@@ -25,7 +25,7 @@ body {
   background: #291c16;
   color: white;
   margin: auto;
-  max-width: 242px;
+  max-width: 357px;
   max-height: 300px;
   display: flex;
   flex-wrap: wrap;
@@ -49,18 +49,14 @@ body {
   margin-bottom: 10px;
 }
 
-// #root {
-// .playground {
-// max-width: 25%; // max-height: 50%;
-// padding: 8px;
-// display: flex;
-// flex-wrap: wrap;
-// margin: auto;
-// background: #291c16;
-// &.start-rotate {
-//   transform: rotate(90deg);
-//   transition: 0.6s;
-// }
+.restart-button,
+.submit-button {
+  margin-top: 30px;
+  margin-right: 5px;
+  width: 100px;
+  padding: 0 10px;
+}
+
 .playground-3 {
   max-width: 350px;
   max-height: 350px;
@@ -68,19 +64,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  margin-top: 50px; // background: #291c16;
+  margin-top: 50px;
 }
 
 .playground-4 {
-  // max-width: 350px;
-  // max-height: 350px;
   max-width: 450px;
   max-height: 450px;
   padding: 8px;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  margin-top: 50px; // background: #291c16;
+  margin-top: 50px;
 }
 
 .playground-5 {
@@ -90,7 +84,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  margin-top: 50px; // background: #291c16;
+  margin-top: 50px;
 }
 
 .playground-6 {
@@ -100,7 +94,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  margin-top: 50px; // background: #291c16;
+  margin-top: 50px;
 }
 
 .playground-7 {
@@ -110,7 +104,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  margin-top: 50px; // background: #291c16;
+  margin-top: 50px;
 }
 
 .start-rotate {

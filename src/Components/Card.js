@@ -20,31 +20,6 @@ class Card extends Component {
       }, 1500);
     }
   };
-//TODO:::::::::::::::::::CARD BG?????
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  //   if (this.props.isFirst) {
-  //     setTimeout(() => {
-  //       // this.setState({ isFirst: false });
-  //       this.props.rotate();
-  //     }, 1000);
-  //   }
-  //   return true;
-  // };
-
-  // componentWillReceiveProps(nextProps) {
-  // if (this.props.isFirst !== nextProps.isFirst) {
-  //   setTimeout(() => {
-  //     this.setState({ isFirst: false });
-  //   }, 1000);
-  //   setTimeout(() => {
-  //     this.setState({ isFirst: true });
-  //   }, 1500);
-  //   setTimeout(() => {
-  //     this.setState({ isFirst: false });
-  //     this.props.rotate();
-  //   }, 2500);
-  // }
-  // }
 
   handleClick = () => {
     this.props.click(this.props.currentCard);

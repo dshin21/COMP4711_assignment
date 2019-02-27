@@ -18,8 +18,12 @@ class LeaderBoard extends Component {
     }
   }
 
+  handleRestart = () => {
+    this.props.restart();
+  };
+
   render = () => {
-    let counter = 1;
+    let counter = 0;
     const playerInfo = this.state.playerInfo;
     console.log(playerInfo);
     return (
@@ -28,14 +32,16 @@ class LeaderBoard extends Component {
         <div id="leader-board">
           <div>
             <div>
+              <div className="leader-board-header">Rank</div>
               <div className="leader-board-header">Name</div>
               <div className="leader-board-header">Score</div>
             </div>
-            <hr/>
+            <hr />
             {playerInfo.map(e => {
-              if (counter++ <= 5) {
+              if (counter++ < 5) {
                 return (
                   <div>
+                    <div className="players">{counter}</div>
                     <div className="players">{e.name}</div>
                     <div className="players">{e.score}</div>
                   </div>
@@ -44,7 +50,9 @@ class LeaderBoard extends Component {
             })}
           </div>
         </div>
-        <button type="button">RESTART</button>
+        <button className="restart-button" onClick={() => this.handleRestart()}>
+          RESTART
+        </button>
       </div>
     );
   };
