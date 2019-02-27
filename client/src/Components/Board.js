@@ -22,11 +22,10 @@ class Board extends Component {
       isGameOver: false,
       initialGame: true
     };
-    this.start();
   }
 
   start = () => {
-    let deck = this.state.deck;
+    let deckTemp = [];
     let row = this.state.row;
     let col = this.state.col;
     let tiles = this.state.tiles;
@@ -43,19 +42,19 @@ class Board extends Component {
 
         if (ansTile < tiles) {
           tempCard.isAnswer = true;
-          deck[regTile] = tempCard;
+          deckTemp[regTile] = tempCard;
           ansTile++;
         } else {
           tempCard.isAnswer = false;
-          deck[regTile] = tempCard;
+          deckTemp[regTile] = tempCard;
         }
       }
-      this.randomizeCards(this.state.deck);
+      this.randomizeCards(deckTemp);
       setTimeout(() => {
         this.setState(
           {
-            deck: deck,
-            initialGame:false
+            deck: deckTemp,
+            initialGame: false
           },
           () => {
             this.setState({
@@ -241,13 +240,13 @@ class Board extends Component {
   };
 
   render = () => {
-    // if (this.state.initialGame) {
-    //   return (
-    //     <button className="start-button" onClick={() => this.start()}>
-    //       START
-    //     </button>
-    //   );
-    // }
+    if (this.state.initialGame) {
+      return (
+        <button className="start-button" onClick={() => this.start()}>
+          START
+        </button>
+      );
+    }
     if (this.state.isGameOver) {
       return (
         <Summary
