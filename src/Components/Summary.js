@@ -24,7 +24,7 @@ class Summary extends Component {
   addplayerInfo = _ => {
     let name = this.state.playerName;
     let score = this.props.playerScore;
-    fetch(`http://localhost:3001/players/add?name=${name}&score=${score}`)
+    fetch(`http://localhost:5000/players/add?name=${name}&score=${score}`)
       .then(response => response.json())
       .catch(err => console.log(err));
   };
@@ -34,7 +34,7 @@ class Summary extends Component {
   };
 
   getPlayerInfo = () => {
-    fetch("http://localhost:3001/players")
+    fetch("http://localhost:5000/players")
       .then(response => response.json())
       .then(response => this.setState({ playerInfo: response.data }, () => {}))
       .catch(err => console.log(err));
