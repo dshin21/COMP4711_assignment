@@ -7,10 +7,9 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDeckSize: 7,
       row: 3,
       col: 3,
-      tiles: 4,
+      tiles: 5,
 
       deck: [],
       selectedCards: [],
@@ -32,6 +31,7 @@ class Board extends Component {
     let tiles = this.state.tiles;
     this.reset();
     console.log("start", row, col, tiles);
+    console.log(deck);
 
     for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
       let tempCard = {
@@ -48,12 +48,17 @@ class Board extends Component {
         deck[regTile] = tempCard;
       }
     }
-    this.setState((state, props) => {
-      return {
-        deck: this.randomizeCards(this.state.deck),
-        isStart: state.isStart === false ? true : false
-      };
-    });
+    this.randomizeCards(this.state.deck);
+    this.setState(
+      {
+        deck: deck
+      },
+      () => {
+        this.setState({
+          isStart: this.state.isStart === false ? true : false
+        });
+      }
+    );
   };
 
   reset = () => {
@@ -65,7 +70,9 @@ class Board extends Component {
     deck = [];
     selectedCards = [];
 
-    this.setState({ deck: deck, selectedCards: selectedCards }, () => {});
+    this.setState({ deck: deck, selectedCards: selectedCards }, () => {
+      console.log(deck);
+    });
   };
 
   randomizeCards = array => {
@@ -217,7 +224,6 @@ class Board extends Component {
         };
       });
     }
-    // this.forceUpdate();
   };
 
   render = () => {

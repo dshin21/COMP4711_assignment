@@ -20,6 +20,9 @@ class Card extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.isStart !== nextProps.isStart) {
       setTimeout(() => {
+        this.setState({ isStart: false });
+      }, 1000);
+      setTimeout(() => {
         this.setState({ isStart: true });
       }, 1500);
 
@@ -35,9 +38,9 @@ class Card extends Component {
   };
 
   render = () => {
-    // console.log("render");
     if (this.state.isStart) {
       if (this.props.isAnswer) {
+        console.log(this.props.currentCard);
         return (
           <div className={"card opened"}>
             <div className="front" />
