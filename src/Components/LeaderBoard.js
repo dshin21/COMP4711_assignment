@@ -18,32 +18,31 @@ class LeaderBoard extends Component {
     }
   }
 
-  handleClick = () => {
-    this.props.click();
-  };
-
-  _renderObject = () => {
-    let playerInfo = this.state.playerInfo;
-    console.log(playerInfo);
-
-    return Object.keys(playerInfo).map(obj => {
-      console.log(obj);
-
-      return <div>{}</div>;
-    });
-  };
-
   render = () => {
+    let counter = 1;
     const playerInfo = this.state.playerInfo;
     console.log(playerInfo);
     return (
-      <div id="leader-board" onClick={() => this.handleClick()}>
-        <div>
-          {playerInfo.map(e => (
+      <div>
+        <h1>Welcome to the LeaderBoard!</h1>
+        <div id="leader-board">
+          <div>
             <div>
-              {e.name} {e.score}
+              <div className="leader-board-header">Name</div>
+              <div className="leader-board-header">Score</div>
             </div>
-          ))}
+            <hr/>
+            {playerInfo.map(e => {
+              if (counter++ <= 5) {
+                return (
+                  <div>
+                    <div className="players">{e.name}</div>
+                    <div className="players">{e.score}</div>
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
         <button type="button">RESTART</button>
       </div>

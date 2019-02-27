@@ -7,7 +7,7 @@ class Summary extends Component {
     this.state = {
       playerName: "",
       playerScore: this.props.playerScore,
-      playerInfo:[],
+      playerInfo: [],
       temp: "",
       submitted: false
     };
@@ -55,14 +55,18 @@ class Summary extends Component {
     }
     return (
       <div className="summary">
-        <div id="restart-button">
+        <div>
+          <h1>Your Score is: {this.state.playerScore}</h1>
           <input
             type="text"
             value={this.state.playerName}
             onChange={this.handleChange.bind(this)}
             placeholder="Please Enter Your Name"
           />
-          <button onClick={this.handleClick.bind(this, this.state.playerName)}>
+          <button
+            id="restart-button"
+            onClick={this.handleClick.bind(this, this.state.playerName)}
+          >
             SUBMIT
           </button>
         </div>

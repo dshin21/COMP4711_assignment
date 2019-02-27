@@ -21,7 +21,31 @@ body {
   }
 }
 
-#terminate-button{
+#leader-board {
+  background: #291c16;
+  color: white;
+  margin: auto;
+  max-width: 242px;
+  max-height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  .leader-board-header {
+    max-width: 300px;
+    padding: 0 40px;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  .players {
+    max-width: 300px;
+    padding: 10px 50px;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
+
+#terminate-button {
   margin-bottom: 10px;
 }
 
