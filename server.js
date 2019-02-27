@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
-const path = require('path');
-
+const path = require("path");
 
 const connection = mysql.createConnection({
   host: "us-cdbr-iron-east-03.cleardb.net",
@@ -41,6 +40,10 @@ app.get("/players/add", function(req, res) {
     `INSERT INTO players (name, score) VALUES('${name}','${score}')`,
     (error, results) => {}
   );
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 app.listen(app.get("port"), function() {
