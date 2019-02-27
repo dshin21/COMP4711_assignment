@@ -14,6 +14,8 @@ class Board extends Component {
 
       deck: [],
       selectedCards: [],
+      isStart: false,
+      rotateClass: "",
       playerScore: 0, //TODO:store in DB
       playerName: "", //TODO:store in DB
       trials: 1
@@ -22,10 +24,7 @@ class Board extends Component {
     this.start();
   }
 
-  componentDidMount = () => {
-    console.log("componentDidMount");
-    console.log(this.state.deck);
-  };
+  componentDidMount = () => {};
 
   start = () => {
     console.log("start");
@@ -52,7 +51,16 @@ class Board extends Component {
         deck[regTile] = tempCard;
       }
     }
-    this.setState({ deck: this.randomizeCards(this.state.deck) });
+
+    this.setState(
+      (state, props) => {
+        return {
+          deck: this.randomizeCards(this.state.deck),
+          isStart: true
+        };
+      }
+      // () => this.rotate()
+    );
   };
 
   reset = () => {
@@ -208,11 +216,26 @@ class Board extends Component {
   };
 
   rotate = () => {
-    if (!this.state.isRotated) {
-      this.setState({
-        isRotated: true
+    if (this.state.rotateClass === "") {
+      this.setState((state, props) => {
+        return {
+          rotateClass: "start-rotate"
+        };
+      });
+    } else if (this.state.rotateClass === "start-rotate") {
+      this.setState((state, props) => {
+        return {
+          rotateClass: "start-unrotate"
+        };
+      });
+    } else if (this.state.rotateClass === "start-unrotate") {
+      this.setState((state, props) => {
+        return {
+          rotateClass: "start-rotate"
+        };
       });
     }
+    // this.forceUpdate();
   };
 
   render = () => {
@@ -225,7 +248,7 @@ class Board extends Component {
         />
         <div
           className={`playground playground-${this.state.row} ${
-            this.state.isRotated ? "start-rotate" : ""
+            this.state.rotateClass
           }`}
         >
           {this.state.deck.map((currentCard, index) => {
@@ -234,6 +257,7 @@ class Board extends Component {
                 currentCard={currentCard.name}
                 isClicked={currentCard.isClicked}
                 isAnswer={currentCard.isAnswer}
+                isStart={this.state.isStart}
                 rotate={this.rotate}
                 click={() => this.handleClick(index)}
               />

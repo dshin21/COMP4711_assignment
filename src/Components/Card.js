@@ -9,18 +9,33 @@ class Card extends Component {
   }
 
   componentDidMount = () => {
-    setTimeout(() => {
-      this.setState({ isStart: false });
-      this.forceUpdate();
-      this.props.rotate();
-    }, 500);
+    if (!this.props.isStart) {
+      setTimeout(() => {
+        this.setState({ isStart: false });
+        // this.forceUpdate();
+        this.props.rotate();
+      }, 1000);
+    }
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isStart !== nextProps.isStart) {
+      console.log(nextProps);
+      this.setState({ isStart: nextProps.isStart }, () => {
+        setTimeout(() => {
+          this.setState({ isStart: false });
+          this.props.rotate();
+        }, 1000);
+      });
+    }
+  }
 
   handleClick = () => {
     this.props.click(this.props.currentCard);
   };
 
   render = () => {
+    console.log("render");
     if (this.state.isStart) {
       if (this.props.isAnswer) {
         return (
@@ -42,7 +57,7 @@ class Card extends Component {
         <div
           className={
             "card " +
-            (this.props.isStart || this.props.isClicked ? "opened" : "")
+            (this.state.isStart || this.props.isClicked ? "opened" : "")
           }
           onClick={() => this.handleClick()}
         >
