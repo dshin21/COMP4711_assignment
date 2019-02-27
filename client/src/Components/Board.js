@@ -9,8 +9,8 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      row: 3,
-      col: 3,
+      row: 6,
+      col: 6,
       tiles: 4,
       deck: [],
       selectedCards: [],
@@ -19,9 +19,9 @@ class Board extends Component {
       playerScore: 0,
       playerName: "",
       trials: 1,
-      isGameOver: false
+      isGameOver: false,
+      initialGame: true
     };
-
     this.start();
   }
 
@@ -54,7 +54,8 @@ class Board extends Component {
       setTimeout(() => {
         this.setState(
           {
-            deck: deck
+            deck: deck,
+            initialGame:false
           },
           () => {
             this.setState({
@@ -240,6 +241,13 @@ class Board extends Component {
   };
 
   render = () => {
+    // if (this.state.initialGame) {
+    //   return (
+    //     <button className="start-button" onClick={() => this.start()}>
+    //       START
+    //     </button>
+    //   );
+    // }
     if (this.state.isGameOver) {
       return (
         <Summary
