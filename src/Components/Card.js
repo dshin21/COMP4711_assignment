@@ -12,7 +12,6 @@ class Card extends Component {
     if (!this.props.isStart) {
       setTimeout(() => {
         this.setState({ isStart: false });
-        // this.forceUpdate();
         this.props.rotate();
       }, 1000);
     }
@@ -20,13 +19,14 @@ class Card extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isStart !== nextProps.isStart) {
-      console.log(nextProps);
-      this.setState({ isStart: nextProps.isStart }, () => {
-        setTimeout(() => {
-          this.setState({ isStart: false });
-          this.props.rotate();
-        }, 1000);
-      });
+      setTimeout(() => {
+        this.setState({ isStart: true });
+      }, 1500);
+
+      setTimeout(() => {
+        this.setState({ isStart: false });
+        this.props.rotate();
+      }, 2500);
     }
   }
 
@@ -35,7 +35,7 @@ class Card extends Component {
   };
 
   render = () => {
-    console.log("render");
+    // console.log("render");
     if (this.state.isStart) {
       if (this.props.isAnswer) {
         return (

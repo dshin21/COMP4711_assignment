@@ -20,21 +20,18 @@ class Board extends Component {
       playerName: "", //TODO:store in DB
       trials: 1
     };
-    console.log("constructor");
     this.start();
   }
 
   componentDidMount = () => {};
 
   start = () => {
-    console.log("start");
     let deck = this.state.deck;
     let row = this.state.row;
     let col = this.state.col;
     let tiles = this.state.tiles;
-    console.log(deck);
     this.reset();
-    console.log(deck);
+    console.log("start", row, col, tiles);
 
     for (let regTile = 0, ansTile = 0; regTile < row * col; regTile++) {
       let tempCard = {
@@ -51,16 +48,12 @@ class Board extends Component {
         deck[regTile] = tempCard;
       }
     }
-
-    this.setState(
-      (state, props) => {
-        return {
-          deck: this.randomizeCards(this.state.deck),
-          isStart: true
-        };
-      }
-      // () => this.rotate()
-    );
+    this.setState((state, props) => {
+      return {
+        deck: this.randomizeCards(this.state.deck),
+        isStart: state.isStart === false ? true : false
+      };
+    });
   };
 
   reset = () => {
@@ -69,15 +62,10 @@ class Board extends Component {
     let deck = this.state.deck;
     let selectedCards = this.state.selectedCards;
 
-    // for (let i = 0; i < deck.length; i++) delete deck[i];
-    // for (let i = 0; i < selectedCards.length; i++) delete selectedCards[i];
     deck = [];
     selectedCards = [];
 
-    this.setState({ deck: deck, selectedCards: selectedCards }, () => {
-      console.log(deck);
-      console.log(selectedCards);
-    });
+    this.setState({ deck: deck, selectedCards: selectedCards }, () => {});
   };
 
   randomizeCards = array => {
@@ -100,8 +88,6 @@ class Board extends Component {
     let tiles = this.state.tiles;
 
     if (selectedCards[selectedCards.length - 1] !== deck[index]) {
-      console.log("rest");
-
       deck[index].isClicked = true;
       selectedCards.push(deck[index]);
       this.setState(
@@ -110,7 +96,6 @@ class Board extends Component {
           deck
         },
         () => {
-          console.log(selectedCards.length, tiles);
           if (selectedCards.length === tiles) {
             this.check();
           }
@@ -129,7 +114,7 @@ class Board extends Component {
   check = () => {
     let selectedCards = this.state.selectedCards;
     let isWrongAns = false;
-    for (let i = 0; i < selectedCards.length; i++) {
+    for (let i = 0; i < selectedCards.length && !isWrongAns; i++) {
       if (!selectedCards[i].isAnswer) {
         isWrongAns = true;
         this.setState(
@@ -142,12 +127,12 @@ class Board extends Component {
             };
           },
           () => {
-            this.start();
+            if (isWrongAns) this.start();
           }
         );
       }
     }
-    console.log("checking");
+
     if (!isWrongAns) {
       this.setState(
         () => {
@@ -173,7 +158,7 @@ class Board extends Component {
     let res = [];
 
     if (winOrLose === "win") {
-      console.log("win");
+      console.log("win", row, col, tiles);
       if (tiles - col === 2) {
         if (row === 3 && col === 3) {
           row++;
@@ -191,13 +176,12 @@ class Board extends Component {
     }
 
     if (winOrLose === "lose") {
-      console.log("lose");
-      if (tiles - col === 1) {
-        if (row === 3 && col === 3) {
-          console.log("hi");
-          tiles--;
-        }
-      } else {
+      console.log("lose", row, col, tiles);
+      if (row === 3 && col === 3 && tiles === 4) {
+        tiles--;
+      } else if (tiles - col === 2) {
+        tiles--;
+      } else if (tiles - col === 1) {
         row--;
         col--;
         tiles = row + 2;
@@ -211,9 +195,7 @@ class Board extends Component {
     return res;
   };
 
-  componentDidUpdate = () => {
-    // console.log(this.state.row, this.state.col, this.state.tiles);
-  };
+  componentDidUpdate = () => {};
 
   rotate = () => {
     if (this.state.rotateClass === "") {
